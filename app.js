@@ -1,10 +1,19 @@
 // Requires
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 // Inicializar variables
 var app = express();
 
+// Body Parser
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// Importar Rutas
+var appRoutes = require('./Routes/app');
+var userRoutes = require('./Routes/user');
+var loginRoutes = require('./Routes/login');
 
 //Conexion DB
 mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) => {
@@ -16,12 +25,9 @@ mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) 
 });
 
 // Rutas
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        ok: true,
-        message: 'Peticion realizada correctamente'
-    });
-});
+app.use('/Login', loginRoutes);
+app.use('/User', userRoutes);
+app.use('/', appRoutes);
 
 // Escuchar peticiones
 app.listen(3000, () => {
