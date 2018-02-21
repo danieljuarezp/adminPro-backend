@@ -137,7 +137,7 @@ app.delete('/:username', auth.verifyToken, (req, res) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    message: 'Error al actualizar usuario',
+                    message: 'Error al eliminar usuario',
                     errors: err
                 });
             }
