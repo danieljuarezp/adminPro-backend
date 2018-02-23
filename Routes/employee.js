@@ -7,9 +7,15 @@ var Employee = require('../Models/employee');
 
 // Obtener todos los empleados
 app.get('/', (req, res) => {
+
+    var pagination = req.query.pagination || 0;
+    pagination = Number(pagination);
+
     Employee.find({})
         .populate('userId', 'username email')
         .populate('companyId', 'name')
+        .skip(pagination)
+        .limit(5)
         .exec(
             (err, employee) => {
                 if (err) {
@@ -19,9 +25,22 @@ app.get('/', (req, res) => {
                         errors: err
                     });
                 }
-                res.status(200).json({
-                    ok: true,
-                    employee: employee
+
+                Employee.count({}, (err, count) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            message: 'Error al contar empleados',
+                            errors: err
+                        });
+                    }
+
+                    res.status(200).json({
+                        ok: true,
+                        employee: employee,
+                        count: count
+                    });
                 });
 
             });

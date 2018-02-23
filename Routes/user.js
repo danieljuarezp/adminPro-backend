@@ -10,7 +10,13 @@ var User = require('../Models/user');
 
 // Obtener todos los usuarios
 app.get('/', (req, res, next) => {
+
+    var pagination = req.query.pagination || 0;
+    pagination = Number(pagination);
+
     User.find({}, 'firstname lastname username email role active')
+        .skip(pagination)
+        .limit(5)
         .exec(
             (err, users) => {
                 if (err) {
@@ -20,9 +26,22 @@ app.get('/', (req, res, next) => {
                         errors: err
                     });
                 }
-                res.status(200).json({
-                    ok: true,
-                    usuarios: users
+
+                User.count({}, (err, count) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            message: 'Error al contar usuarios',
+                            errors: err
+                        });
+                    }
+
+                    res.status(200).json({
+                        ok: true,
+                        usuarios: users,
+                        count: count
+                    });
                 });
 
             });

@@ -7,9 +7,15 @@ var Company = require('../Models/company');
 
 // Obtener todas las empresas
 app.get('/', (req, res) => {
+
+    var pagination = req.query.pagination || 0;
+    pagination = Number(pagination);
+
     Company.find({})
         .populate('creationUserId', 'username email')
         .populate('lastModificationUserId', 'username email')
+        .skip(pagination)
+        .limit(5)
         .exec(
             (err, companies) => {
                 if (err) {
@@ -19,11 +25,23 @@ app.get('/', (req, res) => {
                         errors: err
                     });
                 }
-                res.status(200).json({
-                    ok: true,
-                    companies: companies
-                });
 
+                Company.count({}, (err, count) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            message: 'Error al contar empresas',
+                            errors: err
+                        });
+                    }
+
+                    res.status(200).json({
+                        ok: true,
+                        companies: companies,
+                        count: count
+                    });
+                });
             });
 });
 
