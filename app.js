@@ -16,6 +16,7 @@ var userRoutes = require('./Routes/user');
 var loginRoutes = require('./Routes/login');
 var companyRoutes = require('./Routes/company');
 var employeeRoutes = require('./Routes/employee');
+var searchRoutes = require('./Routes/search');
 
 //Conexion DB
 mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) => {
@@ -27,6 +28,7 @@ mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) 
 });
 
 // Rutas
+app.use('/Search', searchRoutes);
 app.use('/Employee', employeeRoutes);
 app.use('/Company', companyRoutes);
 app.use('/Login', loginRoutes);
