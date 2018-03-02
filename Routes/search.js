@@ -17,10 +17,10 @@ app.get('/Collection/:table/:search', (req, res) => {
     var promise;
 
     switch (table) {
-        case 'users':
+        case 'user':
             promise = SearchUser(search, regex);
             break;
-        case 'employees':
+        case 'employee':
             promise = SearchEmployee(search, regex);
             break;
         case 'company':
