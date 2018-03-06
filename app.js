@@ -18,6 +18,7 @@ var companyRoutes = require('./Routes/company');
 var employeeRoutes = require('./Routes/employee');
 var searchRoutes = require('./Routes/search');
 var uploadRoutes = require('./Routes/upload');
+var imgRoutes = require('./Routes/img');
 
 //Conexion DB
 mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) => {
@@ -28,7 +29,13 @@ mongoose.connection.openUri('mongodb://localhost:27017/adminPro', (error, resp) 
 
 });
 
+// Server index config
+var serveIndex = require('serve-index');
+app.use(express.static(__dirname + '/'))
+app.use('/uploads', serveIndex(__dirname + '/uploads'));
+
 // Rutas
+app.use('/Img', imgRoutes);
 app.use('/Upload', uploadRoutes);
 app.use('/Search', searchRoutes);
 app.use('/Employee', employeeRoutes);

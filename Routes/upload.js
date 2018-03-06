@@ -75,6 +75,13 @@ function UploadByCollection(collection, id, newNameFile, res) {
         case 'Users':
             User.findById(id, (err, user) => {
 
+                if (!user) {
+                    return res.status(400).json({
+                        ok: true,
+                        message: 'Usuario no encontrado'
+                    });
+                }
+
                 var oldPath = './Uploads/Users' + user.img;
 
                 // Eliminar la ultima imagen del usuario
@@ -85,6 +92,7 @@ function UploadByCollection(collection, id, newNameFile, res) {
                 user.img = newNameFile;
 
                 user.save((err, updatedUser) => {
+                    updatedUser.password = ":)";
                     return res.status(200).json({
                         ok: true,
                         message: 'Imagen actualizada',
@@ -95,6 +103,13 @@ function UploadByCollection(collection, id, newNameFile, res) {
             break;
         case 'Employees':
             Employee.findById(id, (err, employee) => {
+
+                if (!employee) {
+                    return res.status(400).json({
+                        ok: true,
+                        message: 'Empleado no encontrado'
+                    });
+                }
 
                 var oldPath = './Uploads/Employee' + employee.img;
 
@@ -116,6 +131,13 @@ function UploadByCollection(collection, id, newNameFile, res) {
             break;
         case 'Companies':
             Company.findById(id, (err, company) => {
+
+                if (!company) {
+                    return res.status(400).json({
+                        ok: true,
+                        message: 'Empresa no encontrada'
+                    });
+                }
 
                 var oldPath = './Uploads/Companies' + company.img;
 
