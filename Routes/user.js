@@ -98,7 +98,7 @@ app.put('/:username', auth.verifyToken, (req, res) => {
 });
 
 // Crear un nuevo usuario
-app.post('/', auth.verifyToken, (req, res) => {
+app.post('/', (req, res) => {
     var body = req.body;
 
     var user = new User({
