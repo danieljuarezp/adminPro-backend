@@ -40,7 +40,7 @@ app.put('/:collection/:id', (req, res, next) => {
     // Extensiones validas
     var allowedExtensions = ['jpg', 'png', 'gif', 'jpeg'];
 
-    if (allowedExtensions.indexOf(extension) < 0) {
+    if (allowedExtensions.indexOf(extension.toLowerCase()) < 0) {
         return res.status(500).json({
             ok: false,
             message: 'Seleccionar un archivo valido',
@@ -49,7 +49,7 @@ app.put('/:collection/:id', (req, res, next) => {
     }
 
     // Agregar nuevo nombre al archivo
-    var newNameFile = `${id}-${ new Date().getMilliseconds()}.${extension}`;
+    var newNameFile = `${id}-${ new Date().getMilliseconds()}.${extension.toLowerCase()}`;
 
     // Mover el archido de temporal a un path
     var path = `./Uploads/${collection}/${newNameFile}`;

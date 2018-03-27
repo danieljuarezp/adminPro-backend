@@ -54,10 +54,12 @@ app.post('/Google', (req, res) => {
             } else {
                 var user = new User();
 
+                var username = payload.email.split('@');
+
                 user.email = payload.email;
                 user.firstname = payload.given_name;
                 user.lastname = payload.family_name;
-                user.username = payload.email;
+                user.username = username[0];
                 user.password = ':)';
                 user.img = payload.picture;
                 user.google = true;
