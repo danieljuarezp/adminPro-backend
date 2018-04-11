@@ -14,7 +14,7 @@ app.get('/', (req, res, next) => {
     var pagination = req.query.pagination || 0;
     pagination = Number(pagination);
 
-    User.find({}, 'firstname lastname username email role active')
+    User.find({}, 'firstname lastname username email role active google img')
         .skip(pagination)
         .limit(5)
         .exec(
