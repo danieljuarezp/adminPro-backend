@@ -17,13 +17,13 @@ app.get('/Collection/:table/:search', (req, res) => {
     var promise;
 
     switch (table) {
-        case 'user':
+        case 'User':
             promise = SearchUser(search, regex);
             break;
-        case 'employee':
+        case 'Employee':
             promise = SearchEmployee(search, regex);
             break;
-        case 'company':
+        case 'Company':
             promise = SearchCompany(search, regex);
             break;
         default:
@@ -112,7 +112,7 @@ function SearchUser(search, regex) {
 
     return new Promise((resolve, reject) => {
 
-        User.find({}, 'username email role')
+        User.find({}, 'firstname lastname username email role active google img')
             .or([{ username: regex }, { email: regex }])
             .exec((err, users) => {
                 if (err) {
