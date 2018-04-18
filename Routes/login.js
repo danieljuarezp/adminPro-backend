@@ -31,11 +31,16 @@ app.post('/Google', (req, res) => {
                     error: err
                 });
             }
-
             if (user) {
+                if (!user.active) {
+                    res.status(400).json({
+                        ok: false,
+                        message: 'Usuario eliminado'
+                    });
+                }
                 if (!user.google) {
                     res.status(400).json({
-                        ok: true,
+                        ok: false,
                         message: 'Usuario registrado con e-mail/username'
                     });
                 } else {

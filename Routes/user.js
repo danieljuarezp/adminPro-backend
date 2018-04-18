@@ -14,7 +14,7 @@ app.get('/', (req, res, next) => {
     var pagination = req.query.pagination || 0;
     pagination = Number(pagination);
 
-    User.find({ active: true }, 'firstname lastname username email role active')
+    User.find({ active: true }, 'firstname lastname username email role active google img')
         .skip(pagination)
         .limit(5)
         .exec(
@@ -27,7 +27,7 @@ app.get('/', (req, res, next) => {
                     });
                 }
 
-                User.count({active: true}, (err, count) => {
+                User.count({ active: true }, (err, count) => {
 
                     if (err) {
                         return res.status(500).json({
