@@ -157,6 +157,36 @@ app.delete('/:name', auth.verifyToken, (req, res) => {
     });
 });
 
+// retorna una empresa por su id
+app.get('/:id', (req, res) => {
+
+    var id = req.params.id;
+    Company.findById(id)
+        .populate('user', 'name img email')
+        .exec((err, company) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error al buscar empresa',
+                    errors: err
+                });
+            }
+            if (!company) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'No se encuentra la empresa',
+                    errors: {
+                        message: 'No existe la empresa'
+                    }
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                company: company
+            });
+        });
+});
+
 
 
 module.exports = app;
